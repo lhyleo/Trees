@@ -6,7 +6,7 @@ package ParentBinaryTree;
  */
 public class PBT<T> {
 
-    private PBTNode<T> root;
+    protected PBTNode<T> root;
 
     /**
      * This method creates a parent-binary tree. The PBT does not accept ducplicate values
@@ -70,12 +70,13 @@ public class PBT<T> {
         while (node != null) {
             if (node.right != null && node.left != null)
                 node.subSize = node.right.subSize + node.left.subSize + 1;
+            else if(node.right == null && node.left == null) {
+                node.subSize = 1;
+            }
             else if (node.right == null)
                 node.subSize = node.left.subSize + 1;
             else if (node.left == null)
                 node.subSize = node.right.subSize + 1;
-            else
-                node.subSize = 1;
             node = node.parent;
         }
     }
@@ -118,6 +119,7 @@ public class PBT<T> {
                     this.root = this.root.left;
                 } else {
                     PBTNode<T> temp = this.root.right;
+                    temp.parent = null;
                     this.root = this.root.left;
                     this.root.parent = (null);
                     this.root.subSize += (temp.subSize);
@@ -146,6 +148,7 @@ public class PBT<T> {
                     resetSubSize(node);
                 } else {
                     addHelper(left, right);
+                    left.parent = node;
                     node.right = left;
                     resetSubSize(node.right);
                 }
@@ -154,7 +157,7 @@ public class PBT<T> {
             PBTNode<T> right = node.left.right;
             PBTNode<T> left = node.left.left;
             if (right == null && left == null) {
-                node.right = (null);
+                node.left = (null);
                 resetSubSize(node);
             } else {
                 if (right == null) {

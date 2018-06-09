@@ -2,7 +2,7 @@ package ParentBinaryTree;
 
 public class BT<T> extends PBT<T> {
 
-    private PBTNode<T> root;
+    protected PBTNode<T> root;
 
     public BT() {
         super();
